@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfólio - <%= dados.perfil.nome %></title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;scroll-behavior:smooth}
+body{background:#f4f9fd;color:#17212b}.top-bar{background:#001220;color:white;min-height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:1000}
+.logo{font-size:24px;cursor:pointer}.nav-links{display:flex;gap:25px}.nav-links a{color:white;text-decoration:none;font-weight:bold;transition:.3s}.nav-links a:hover{color:#8fc5ff}
+.profile-bar{background:#003f88;color:white;text-align:center;padding:30px 20px}.profile-bar h1{margin-bottom:10px}.profile-bar p{font-size:18px}
+.sidebar{position:fixed;top:0;left:-260px;width:250px;height:100%;background:#001220;transition:.3s;z-index:2000;padding-top:80px}.sidebar.active{left:0}.sidebar a{display:block;color:white;text-decoration:none;padding:15px 25px;font-size:18px}.sidebar a:hover{background:#003f88}.close-btn{position:absolute;top:15px;right:20px;font-size:28px;color:white;cursor:pointer}
+.section{padding:60px 8%}.content{display:flex;align-items:center;justify-content:space-between;gap:50px;flex-wrap:wrap}.content img{width:350px;height:350px;object-fit:cover;border-radius:20px;box-shadow:0 5px 15px rgba(0,0,0,.2)}.text{flex:1;min-width:280px}.text h2{margin-bottom:20px;color:#003f88;font-size:36px}.text p{line-height:1.8;font-size:clamp(18px,2.2vw,25px)}
+#certificados{background:white}.titulo{text-align:center;margin-bottom:40px;color:#003f88}.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:30px}.card{width:320px;max-width:100%;background:white;border-radius:15px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.15);cursor:pointer;transition:.3s}.card:hover{transform:translateY(-5px)}.card img{width:100%;height:220px;object-fit:cover}.card-content{padding:20px}.card-content h3{margin-bottom:10px;line-height:1.4}
+.modal{display:none;position:fixed;z-index:5000;left:0;top:0;width:100%;height:100%;overflow:auto;background:rgba(0,0,0,.8)}.modal-content{background:white;width:90%;max-width:900px;margin:40px auto;padding:30px;border-radius:15px;text-align:center}.modal-content img{width:100%;max-height:70vh;object-fit:contain;margin-bottom:20px}.modal-close{float:right;font-size:30px;cursor:pointer}.curso{display:inline-block;margin-top:10px;background:#e6f1ff;color:#003f88;padding:8px 12px;border-radius:8px;font-weight:bold}
+footer{background:#001220;color:white;text-align:center;padding:25px;display:flex;justify-content:center;gap:50px;align-items:center;flex-wrap:wrap}footer p{margin:8px 0}footer a{color:#8fc5ff}
+@media(max-width:800px){.content{flex-direction:column}.content.reverse{flex-direction:column-reverse}.content img{width:100%;max-width:350px;height:auto;max-height:350px}.nav-links{gap:12px}.profile-bar h1{font-size:24px}.section{padding:45px 6%}}
+</style>
+</head>
+<body>
+<div class="sidebar" id="sidebar"><div class="close-btn" onclick="closeMenu()">✕</div><a href="#home" onclick="closeMenu()">Home</a><a href="#sobre" onclick="closeMenu()">Sobre mim</a><a href="#hobbies" onclick="closeMenu()">Hobbies</a><a href="#certificados" onclick="closeMenu()">Certificados</a></div>
+<header class="top-bar"><div class="logo" onclick="openMenu()" aria-label="Abrir menu">☰</div><nav class="nav-links"><a href="#home">Home</a><a href="#certificados">Certificados</a></nav></header>
+<section class="profile-bar" id="home"><h1><%= dados.perfil.nome %></h1><p><%= dados.cursos.length ? dados.cursos[0].nome : 'Estudante de tecnologia' %></p></section>
+<section class="section" id="sobre"><div class="content"><img src="/imagens/programacao.jpg" alt="Programação"><div class="text"><h2>Sobre Mim</h2><p><%= dados.perfil.descricao %></p><% if (dados.cursos.length) { %><div class="curso">Curso: <%= dados.cursos[0].nome %><% if (dados.cursos[0].horas) { %> — <%= dados.cursos[0].horas %> horas<% } %></div><% } %></div></div></section>
+<section class="section" id="hobbies"><div class="content reverse"><div class="text"><h2>Hobbies</h2><p>Gosto de praticar diversos esportes como tênis de mesa, basquete, queimada e vôlei. Entre todos eles, o vôlei é o meu esporte favorito.</p></div><img src="/imagens/volei.jpg" alt="Vôlei"></div></section>
+<section class="section" id="certificados"><h2 class="titulo">Meus Certificados</h2><div class="cards"><% dados.certificados.forEach(cert => { %><div class="card" role="button" tabindex="0" onclick="abrirCertificado('/imagens/<%= cert.imagem || '' %>', <%- JSON.stringify(cert.titulo) %>)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();abrirCertificado('/imagens/<%= cert.imagem || '' %>', <%- JSON.stringify(cert.titulo) %>)}"><img src="/imagens/<%= cert.imagem %>" alt="Certificado: <%= cert.titulo %>" loading="lazy"><div class="card-content"><h3><%= cert.titulo %></h3><% if (cert.ano) { %><p><small><%= cert.ano %></small></p><% } %></div></div><% }); %></div></section>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitulo"><div class="modal-content"><span class="modal-close" onclick="fecharModal()" aria-label="Fechar">✕</span><img id="modalImagem" alt="Certificado ampliado"><h2 id="modalTitulo"></h2></div></div>
+<footer><p>WhatsApp (42) 99818-2778</p><p>Instagram <a href="https://www.instagram.com/raniel_nazarko" target="_blank" rel="noopener noreferrer">@raniel_nazarko</a></p></footer>
+<script>
+function openMenu(){document.getElementById('sidebar').classList.add('active')}
+function closeMenu(){document.getElementById('sidebar').classList.remove('active')}
+function abrirCertificado(imagem,titulo){document.getElementById('modalImagem').src=imagem;document.getElementById('modalTitulo').textContent=titulo;document.getElementById('modal').style.display='block'}
+function fecharModal(){document.getElementById('modal').style.display='none';document.getElementById('modalImagem').src=''}
+window.addEventListener('click',event=>{if(event.target===document.getElementById('modal'))fecharModal()});
+window.addEventListener('keydown',event=>{if(event.key==='Escape')fecharModal()});
+</script>
+</body>
+</html>

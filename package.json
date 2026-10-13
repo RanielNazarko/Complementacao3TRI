@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-mysql-escola",
+  "version": "1.0.0",
+  "description": "Portfólio escolar com Express, EJS e MySQL usando Router, Controller, Service e Repository.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1"
+  }
+}
