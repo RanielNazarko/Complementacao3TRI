@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS certificados (
 -- Insere os dados de exemplo somente quando as tabelas ainda estão vazias.
 INSERT INTO perfil (id, nome, email, descricao)
 SELECT 1, 'Raniel De Jesus Nazarko', 'raniel.nazarko@escola.pr.gov.br',
-'Olá! Meu nome é Raniel de Jesus Nazarko e atualmente estou cursando o 2º ano do Ensino Médio juntamente com o curso Técnico em Desenvolvimento de Sistemas. Pretendo futuramente cursar Engenharia de Software e construir uma carreira na área da tecnologia. Gosto de praticar diversos esportes como tênis de mesa, basquete, queimada e vôlei; entre todos eles, o vôlei é meu esporte favorito.'
+'Olá! Meu nome é Raniel de Jesus Nazarko e atualmente estou cursando o 2º ano do Ensino Médio juntamente com o curso Técnico em Desenvolvimento de Sistemas. Pretendo futuramente cursar Engenharia de Software e construir uma carreira na área da tecnologia. Gosto de praticar diversos esportes como tênis de mesa, basquete, queimada e vôlei, entre todos eles, o vôlei é meu esporte favorito.'
 WHERE NOT EXISTS (SELECT 1 FROM perfil WHERE id = 1);
 
 INSERT INTO cursos (fk_perfil, nome, horas)
